@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <style>
+    .bg{fill:#0f1724}
+    .card{fill:#0b1220;stroke:#1f2937;stroke-width:2;rx:8;filter:drop-shadow(0 6px 12px rgba(2,6,23,0.6))}
+    .title{fill:#e6eef8;font-family:Inter,Segoe UI,Arial,sans-serif;font-size:18px;font-weight:700}
+    .label{fill:#cbd5e1;font-family:Inter,Segoe UI,Arial,sans-serif;font-size:14px}
+    .arrow{stroke:#60a5fa;stroke-width:3;fill:none;marker-end:url(#arrowhead)}
+    .lane{stroke:#1f2937;stroke-width:1;fill:none}
+  </style>
+
+  <rect class="bg" width="1200" height="600"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#60a5fa"/>
+    </marker>
+  </defs>
+
+  <!-- CPU lane -->
+  <g transform="translate(40,60)">
+    <text class="title">CPU Layer</text>
+    <rect class="card" x="0" y="36" width="320" height="120" />
+    <text class="label" x="18" y="72">Frontend / Parser</text>
+    <text class="label" x="18" y="96">IR Builder</text>
+    <text class="label" x="18" y="120">Host Orchestration</text>
+  </g>
+
+  <!-- Compiler / Optimizer -->
+  <g transform="translate(420,60)">
+    <text class="title">Compiler &amp; Optimizer</text>
+    <rect class="card" x="0" y="36" width="360" height="160" />
+    <text class="label" x="18" y="72">Type Checker</text>
+    <text class="label" x="18" y="96">Fusion &amp; Scheduling</text>
+    <text class="label" x="18" y="120">GPU Kernel Generator</text>
+    <text class="label" x="18" y="144">Verification Hooks</text>
+  </g>
+
+  <!-- GPU lane -->
+  <g transform="translate(820,60)">
+    <text class="title">GPU Layer</text>
+    <rect class="card" x="0" y="36" width="320" height="120" />
+    <text class="label" x="18" y="72">Kernel Loader</text>
+    <text class="label" x="18" y="96">Memory Manager</text>
+    <text class="label" x="18" y="120">Execution Engine</text>
+  </g>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M360 120 L420 120" />
+  <path class="arrow" d="M780 140 L820 140" />
+  <path class="arrow" d="M1140 120 L1140 220 L360 220" stroke-dasharray="8 6"/>
+
+  <!-- Notes -->
+  <g transform="translate(40,240)">
+    <rect x="0" y="0" width="1100" height="120" rx="8" fill="#071028" stroke="#123047" />
+    <text class="label" x="18" y="28" fill="#9fb7d9">Notes</text>
+    <text class="label" x="18" y="52">• Verification hooks connect to Liquid Haskell specs for invariants.</text>
+    <text class="label" x="18" y="76">• Kernel Generator emits Futhark-style kernels optimized for the target GPU.</text>
+    <text class="label" x="18" y="100">• Host orchestrator handles data movement and benchmark harnessing.</text>
+  </g>
+</svg>

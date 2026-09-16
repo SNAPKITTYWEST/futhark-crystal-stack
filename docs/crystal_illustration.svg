@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop offset="0" stop-color="#7dd3fc"/>
+      <stop offset="0.5" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="circuit" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="transparent"/>
+      <path d="M2 20 H38" stroke="#9be7ff" stroke-width="1" opacity="0.12"/>
+      <circle cx="10" cy="10" r="1.6" fill="#9be7ff" opacity="0.12"/>
+      <circle cx="30" cy="30" r="1.6" fill="#9be7ff" opacity="0.12"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="800" fill="#071028"/>
+  <g transform="translate(400,380) scale(1)">
+    <!-- facets -->
+    <polygon points="-40,-220 60,-180 120,-40 40,40 -80,20 -140,-80" fill="url(#g1)" opacity="0.98" filter="url(#glow)"/>
+    <polygon points="-40,-220 40,40 -80,20" fill="#9be7ff" opacity="0.12"/>
+    <polygon points="60,-180 120,-40 40,40" fill="#7c3aed" opacity="0.18"/>
+    <polygon points="-140,-80 -80,20 40,40" fill="#60a5fa" opacity="0.14"/>
+    <polygon points="120,-40 220,40 40,40" fill="#7dd3fc" opacity="0.08"/>
+
+    <!-- inner crystal core -->
+    <polygon points="-20,-120 40,-80 60,-20 10,10 -30,-10 -60,-60" fill="url(#g1)" stroke="#bfe9ff" stroke-width="1.2"/>
+
+    <!-- circuit overlay -->
+    <g opacity="0.9" transform="translate(-120,-120) scale(1.6)">
+      <rect x="0" y="0" width="160" height="160" fill="url(#circuit)" />
+    </g>
+
+    <!-- base glow -->
+    <ellipse cx="0" cy="220" rx="220" ry="40" fill="#60a5fa" opacity="0.08"/>
+  </g>
+
+  <!-- caption -->
+  <text x="50" y="760" fill="#cfeeff" font-family="Inter,Segoe UI,Arial" font-size="18">Futhark Crystal — GPU compute motif</text>
+</svg>

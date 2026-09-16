@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="500" viewBox="0 0 1100 500">
+  <style>
+    .bg{fill:#071029}
+    .lane{fill:#071a2a;stroke:#123244;stroke-width:1;rx:6}
+    .box{fill:#0b2a3f;stroke:#1f6b9a;stroke-width:1.5;rx:6}
+    .text{fill:#dbeefc;font-family:Inter,Segoe UI,Arial,sans-serif;font-size:13px}
+    .small{fill:#9fc3e6;font-family:Inter,Segoe UI,Arial,sans-serif;font-size:12px}
+    .flow{stroke:#7ee3a8;stroke-width:3;fill:none;marker-end:url(#arrow)}
+  </style>
+
+  <rect class="bg" width="1100" height="500"/>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7ee3a8"/>
+    </marker>
+  </defs>
+
+  <!-- CPU lane -->
+  <g transform="translate(40,40)">
+    <rect class="lane" x="0" y="0" width="1020" height="120" />
+    <text class="text" x="12" y="26">CPU Preprocessing</text>
+    <g transform="translate(20,40)">
+      <rect class="box" x="0" y="0" width="220" height="56"/>
+      <text class="small" x="12" y="34">Input Loader</text>
+      <rect class="box" x="260" y="0" width="220" height="56"/>
+      <text class="small" x="272" y="34">Host Transform</text>
+      <rect class="box" x="520" y="0" width="220" height="56"/>
+      <text class="small" x="532" y="34">Buffer Prep</text>
+    </g>
+  </g>
+
+  <!-- GPU lane -->
+  <g transform="translate(40,200)">
+    <rect class="lane" x="0" y="0" width="1020" height="200" />
+    <text class="text" x="12" y="26">GPU Execution</text>
+    <g transform="translate(20,40)">
+      <rect class="box" x="0" y="0" width="300" height="80"/>
+      <text class="small" x="12" y="46">Kernel A</text>
+      <rect class="box" x="360" y="0" width="300" height="80"/>
+      <text class="small" x="372" y="46">Kernel B</text>
+      <rect class="box" x="720" y="0" width="220" height="80"/>
+      <text class="small" x="732" y="46">Reduction</text>
+    </g>
+
+    <!-- Flows -->
+    <path class="flow" d="M240 120 L240 200 L240 240" />
+    <path class="flow" d="M520 120 L520 200 L520 240" />
+    <path class="flow" d="M880 120 L880 200 L880 240" />
+  </g>
+
+  <!-- Results -->
+  <g transform="translate(40,420)">
+    <rect class="box" x="0" y="0" width="1020" height="56"/>
+    <text class="small" x="12" y="36">Results Collector and Benchmark Reporter</text>
+  </g>
+</svg>
