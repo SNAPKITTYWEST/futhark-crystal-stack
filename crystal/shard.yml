@@ -1,0 +1,4 @@
+name: futhark_crystal_stack
+version: 0.1.0
+dependencies:
+  # Intentionally empty: zero Python, zero external runtime deps.
