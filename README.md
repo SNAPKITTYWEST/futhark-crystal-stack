@@ -53,6 +53,81 @@ futhark-crystal-stack/
 
 ---
 
+## System architecture
+
+```mermaid
+flowchart TD
+    CLIENT["TCP Client"] -->|binary frame| FIO["FrameIO\nlength-prefixed"]
+    FIO --> ER["EventRouter\nopcode dispatch · backpressure"]
+    ER -->|Compute/Batch| JQ["JobQueue\nChannel-based · bounded"]
+    ER -->|Status| SR["Status reply"]
+    ER -->|Shutdown| SH["Shutdown + close"]
+    JQ --> W1["Worker fiber"]
+    JQ --> W2["Worker fiber"]
+    W1 --> DISP["GPU::Dispatcher\nFuthark C ABI"]
+    W2 --> DISP
+    DISP -->|result frame| FIO
+    FIO -->|response| CLIENT
+
+    style CLIENT fill:#0f2744,stroke:#3b82f6,color:#e2e8f0
+    style FIO fill:#0f2744,stroke:#3b82f6,color:#e2e8f0
+    style ER fill:#2a1f44,stroke:#a855f7,color:#e2e8f0
+    style JQ fill:#2a1f44,stroke:#a855f7,color:#e2e8f0
+    style DISP fill:#0d3320,stroke:#22c55e,color:#e2e8f0
+    style W1 fill:#1a2e1a,stroke:#22c55e,color:#e2e8f0
+    style W2 fill:#1a2e1a,stroke:#22c55e,color:#e2e8f0
+```
+
+---
+
+## Futhark kernel pipeline
+
+```mermaid
+flowchart LR
+    FUT["*.fut source\npure math spec"] --> FC{"futhark\ncompile"}
+    FC -->|multicore| MC["libkernel.so\nCPU threads"]
+    FC -->|cuda| CU["libkernel.so\nCUDA PTX"]
+    FC -->|c| CC["libkernel.c\nportable C"]
+    MC --> CABI["Futhark C ABI\nLibFuthark bindings"]
+    CU --> CABI
+    CC --> CABI
+    CABI --> DISP["GPU::Dispatcher\nCrystal"]
+
+    style FUT fill:#0f2744,stroke:#3b82f6,color:#e2e8f0
+    style FC fill:#2a1f44,stroke:#a855f7,color:#e2e8f0
+    style MC fill:#1a2e1a,stroke:#22c55e,color:#e2e8f0
+    style CU fill:#1a2e1a,stroke:#22c55e,color:#e2e8f0
+    style CC fill:#1a2e1a,stroke:#22c55e,color:#e2e8f0
+    style CABI fill:#0f2744,stroke:#3b82f6,color:#e2e8f0
+    style DISP fill:#0d3320,stroke:#22c55e,color:#e2e8f0
+```
+
+---
+
+## Request lifecycle
+
+```mermaid
+sequenceDiagram
+    participant CL as Client
+    participant FI as FrameIO
+    participant ER as EventRouter
+    participant JQ as JobQueue
+    participant WK as Worker
+    participant GP as Dispatcher
+
+    CL->>FI: write_frame(encoded request)
+    FI->>ER: read_frame → decode header
+    ER->>ER: check inflight ≤ max
+    ER->>JQ: enqueue(Job)
+    JQ->>WK: channel receive
+    WK->>GP: dispatch(opcode, body)
+    GP-->>WK: result bytes
+    WK-->>FI: on_complete(result)
+    FI-->>CL: write_frame(response)
+```
+
+---
+
 ## Build
 
 ```bash
